@@ -30,7 +30,7 @@ class ThemeChanger with ChangeNotifier {
   static const _fontFamily = "Dongle";
 
   static const _headline = TextStyle(fontWeight: FontWeight.bold, fontSize: 26);
-  static const _bodyText = TextStyle(fontSize: 18);
+  static const _bodyText = TextStyle(fontSize: 22);
 
   static final ThemeData dark = ThemeData(
       backgroundColor: const Color.fromRGBO(22, 19, 19, 1),

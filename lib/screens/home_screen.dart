@@ -22,7 +22,7 @@ class Home extends StatelessWidget {
             builder: (_, snapshot) => snapshot.connectionState ==
                     ConnectionState.waiting
                 ? const LoadingScreen()
-                : snapshot.data!
+                : snapshot.data! == false
                     ? const ErrorScreen()
                     : Scaffold(
                         backgroundColor: Theme.of(context).backgroundColor,

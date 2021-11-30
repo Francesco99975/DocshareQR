@@ -48,35 +48,33 @@ class QrDetailScreen extends StatelessWidget {
                   child: Center(
                     child: Text(qrDoc.url,
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodyText2),
+                        style: Theme.of(context).textTheme.bodyText1),
                   ),
                 ),
                 const SizedBox(
                   height: 30,
                 ),
-                Expanded(
-                  child: Center(
-                    child: SizedBox(
-                      width: 280,
-                      child: CustomPaint(
-                        size: const Size.square(280),
-                        painter: QrPainter(
-                          data: qrDoc.url,
-                          version: QrVersions.auto,
-                          eyeStyle: const QrEyeStyle(
-                            eyeShape: QrEyeShape.square,
-                            color: Color.fromRGBO(255, 103, 0, 1),
-                          ),
-                          dataModuleStyle: const QrDataModuleStyle(
-                            dataModuleShape: QrDataModuleShape.circle,
-                            color: Color.fromRGBO(255, 103, 0, 1),
-                          ),
-                          // size: 320.0,
-                          // embeddedImage: snapshot.data,
-                          // embeddedImageStyle: QrEmbeddedImageStyle(
-                          //   size: const Size.square(60),
-                          // ),
+                Center(
+                  child: SizedBox(
+                    width: 280,
+                    child: CustomPaint(
+                      size: const Size.square(280),
+                      painter: QrPainter(
+                        data: qrDoc.url,
+                        version: QrVersions.auto,
+                        eyeStyle: const QrEyeStyle(
+                          eyeShape: QrEyeShape.square,
+                          color: Color.fromRGBO(255, 103, 0, 1),
                         ),
+                        dataModuleStyle: const QrDataModuleStyle(
+                          dataModuleShape: QrDataModuleShape.circle,
+                          color: Color.fromRGBO(255, 103, 0, 1),
+                        ),
+                        // size: 320.0,
+                        // embeddedImage: snapshot.data,
+                        // embeddedImageStyle: QrEmbeddedImageStyle(
+                        //   size: const Size.square(60),
+                        // ),
                       ),
                     ),
                   ),

@@ -25,7 +25,7 @@ class QrListItem extends StatelessWidget {
       //   ),
       //   alignment: Alignment.centerLeft,
       // ),
-      secondaryBackground: Container(
+      background: Container(
         padding: const EdgeInsets.only(right: 20),
         margin: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 4.0),
         color: Theme.of(context).errorColor,
@@ -97,12 +97,12 @@ class QrListItem extends StatelessWidget {
           ),
           title: Text(
             qrDoc.title,
-            style: Theme.of(context).textTheme.bodyText2,
+            style: Theme.of(context).textTheme.bodyText1!,
           ),
           subtitle: Text(
             "Due Date: ${DateFormat.yMMMMEEEEd().format(qrDoc.createdAt)}",
             style:
-                Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 16),
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 20),
           ),
         ),
       ),

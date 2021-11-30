@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:docshareqr/providers/qrdocs.dart';
+import 'package:docshareqr/screens/error_screen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,18 +22,22 @@ class _CreateScreenState extends State<CreateScreen> {
   bool _isLoading = false;
   bool _isProtected = false;
 
-  late String _name;
-  late String _password;
-  late List<String> _files = [];
+  String _name = "";
+  String _password = "";
+  List<File> _files = [];
 
   Future<void> _pickFiles() async {
     FilePickerResult? result =
         await FilePicker.platform.pickFiles(allowMultiple: true);
 
     if (result != null) {
-      _files = result.paths.map((path) => path!).toList();
+      setState(() {
+        _files = result.paths.map((path) => File(path!)).toList();
+      });
     } else {
-      _files = [];
+      setState(() {
+        _files = [];
+      });
     }
   }
 
@@ -41,7 +48,7 @@ class _CreateScreenState extends State<CreateScreen> {
         _isLoading = true;
       });
       var res = await Provider.of<QRDocs>(context, listen: false)
-          .addQRDoc(_name, _password, _files);
+          .addQRDoc(_name, _password, _files.map((e) => e.path).toList());
 
       if (res) {
         Navigator.of(context).pop();
@@ -49,12 +56,20 @@ class _CreateScreenState extends State<CreateScreen> {
         setState(() {
           _isLoading = false;
         });
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: Theme.of(context).primaryColorDark,
+            duration: const Duration(seconds: 3),
+            content: Text(
+              Provider.of<QRDocs>(context, listen: false).lastError,
+              style: Theme.of(context).textTheme.bodyText1,
+            )));
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    deviceSize = MediaQuery.of(context).size;
     return _isLoading
         ? const LoadingScreen()
         : Scaffold(
@@ -70,8 +85,15 @@ class _CreateScreenState extends State<CreateScreen> {
               actions: [
                 TextButton.icon(
                     onPressed: _save,
-                    icon: const Icon(Icons.save),
-                    label: const Text("SAVE"))
+                    icon: Icon(
+                      Icons.save,
+                      size: 30,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    label: Text(
+                      "SAVE",
+                      style: Theme.of(context).textTheme.bodyText2!,
+                    ))
               ],
             ),
             body: InkWell(
@@ -101,7 +123,7 @@ class _CreateScreenState extends State<CreateScreen> {
                                   labelText: "Name",
                                   labelStyle: Theme.of(context)
                                       .textTheme
-                                      .bodyText1!
+                                      .bodyText2!
                                       .copyWith(fontSize: 16),
                                   hintText: 'Enter name',
                                   hintStyle: Theme.of(context)
@@ -125,13 +147,22 @@ class _CreateScreenState extends State<CreateScreen> {
                               const SizedBox(
                                 height: 50.0,
                               ),
-                              Switch.adaptive(
-                                  value: _isProtected,
-                                  onChanged: (_) {
-                                    setState(() {
-                                      _isProtected = !_isProtected;
-                                    });
-                                  }),
+                              Row(
+                                children: [
+                                  Text(
+                                    "Protect with password",
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
+                                  ),
+                                  Switch.adaptive(
+                                      value: _isProtected,
+                                      onChanged: (_) {
+                                        setState(() {
+                                          _isProtected = !_isProtected;
+                                        });
+                                      }),
+                                ],
+                              ),
                               if (_isProtected)
                                 TextFormField(
                                   autocorrect: false,
@@ -143,7 +174,7 @@ class _CreateScreenState extends State<CreateScreen> {
                                     labelText: "Password",
                                     labelStyle: Theme.of(context)
                                         .textTheme
-                                        .bodyText1!
+                                        .bodyText2!
                                         .copyWith(fontSize: 16),
                                     hintText: 'Enter password',
                                     hintStyle: Theme.of(context)
@@ -172,17 +203,34 @@ class _CreateScreenState extends State<CreateScreen> {
                               ),
                               TextButton.icon(
                                   onPressed: _pickFiles,
-                                  icon: const Icon(Icons.file_copy),
+                                  icon: Icon(
+                                    Icons.file_copy,
+                                    size: 30,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                  ),
                                   label: Text(
                                     "Select Files",
                                     style:
-                                        Theme.of(context).textTheme.bodyText1,
+                                        Theme.of(context).textTheme.bodyText2,
                                   )),
                               if (_files.isNotEmpty)
-                                ListView.builder(
-                                  itemCount: _files.length,
-                                  itemBuilder: (context, index) => ListTile(
-                                    title: Text(_files[index]),
+                                SizedBox(
+                                  height: 200,
+                                  child: ListView.builder(
+                                    itemCount: _files.length,
+                                    itemBuilder: (context, index) => ListTile(
+                                      title: Text(
+                                        _files[index].path.substring(
+                                            _files[index]
+                                                    .path
+                                                    .lastIndexOf("/") +
+                                                1),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1,
+                                      ),
+                                    ),
                                   ),
                                 )
                             ],
