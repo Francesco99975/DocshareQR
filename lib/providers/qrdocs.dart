@@ -48,7 +48,7 @@ class QRDocs with ChangeNotifier {
     deviceId = (await _getDeviceDetails())[2];
     try {
       var res = json
-          .decode((await http.get(Uri.parse('$testUrl/media/$deviceId'))).body);
+          .decode((await http.get(Uri.parse('$baseUrl/media/$deviceId'))).body);
 
       List<QRDoc> temp = [];
 
@@ -71,7 +71,7 @@ class QRDocs with ChangeNotifier {
   Future<bool> addQRDoc(
       String name, String password, List<String> files) async {
     try {
-      var request = http.MultipartRequest('POST', Uri.parse('$testUrl/media'));
+      var request = http.MultipartRequest('POST', Uri.parse('$baseUrl/media'));
       request.fields["name"] = name;
       request.fields["password"] = password;
       request.fields["deviceId"] = deviceId;
@@ -119,7 +119,7 @@ class QRDocs with ChangeNotifier {
 
   Future<bool> deleteQRDoc(String id) async {
     try {
-      await http.delete(Uri.parse('$testUrl/media/$id'));
+      await http.delete(Uri.parse('$baseUrl/media/$id'));
 
       _items.removeWhere((itm) => itm.id == id);
       notifyListeners();

@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:docshareqr/providers/qrdocs.dart';
-import 'package:docshareqr/screens/error_screen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -73,29 +72,33 @@ class _CreateScreenState extends State<CreateScreen> {
     return _isLoading
         ? const LoadingScreen()
         : Scaffold(
+            bottomNavigationBar: InkWell(
+              onTap: _isLoading ? () {} : _save,
+              child: Container(
+                height: 55,
+                width: double.infinity,
+                color: Theme.of(context).primaryColor,
+                child: Center(
+                  child: Text(
+                    "CREATE DOCSHAREQR",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1!
+                        .copyWith(letterSpacing: 1.2),
+                  ),
+                ),
+              ),
+            ),
             backgroundColor: Theme.of(context).backgroundColor,
             appBar: AppBar(
-              backgroundColor: Theme.of(context).backgroundColor,
-              foregroundColor: Theme.of(context).primaryColor,
-              centerTitle: true,
-              title: Text(
-                "Create QR Code",
-                style: Theme.of(context).textTheme.headline1,
-              ),
-              actions: [
-                TextButton.icon(
-                    onPressed: _save,
-                    icon: Icon(
-                      Icons.save,
-                      size: 30,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    label: Text(
-                      "SAVE",
-                      style: Theme.of(context).textTheme.bodyText2!,
-                    ))
-              ],
-            ),
+                backgroundColor: Theme.of(context).backgroundColor,
+                foregroundColor: Theme.of(context).primaryColor,
+                centerTitle: true,
+                title: Text(
+                  "Create QR Code",
+                  style: Theme.of(context).textTheme.headline1,
+                )),
             body: InkWell(
                 onTap: () => FocusScope.of(context).unfocus(),
                 child: SafeArea(
@@ -214,25 +217,37 @@ class _CreateScreenState extends State<CreateScreen> {
                                     style:
                                         Theme.of(context).textTheme.bodyText2,
                                   )),
-                              if (_files.isNotEmpty)
-                                SizedBox(
-                                  height: 200,
-                                  child: ListView.builder(
-                                    itemCount: _files.length,
-                                    itemBuilder: (context, index) => ListTile(
-                                      title: Text(
-                                        _files[index].path.substring(
-                                            _files[index]
-                                                    .path
-                                                    .lastIndexOf("/") +
-                                                1),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
+                              Container(
+                                padding: const EdgeInsets.all(3.0),
+                                height: 200,
+                                color: Theme.of(context).primaryColorDark,
+                                child: _files.isNotEmpty
+                                    ? ListView.builder(
+                                        itemCount: _files.length,
+                                        itemBuilder: (context, index) =>
+                                            ListTile(
+                                          title: Text(
+                                            _files[index].path.substring(
+                                                _files[index]
+                                                        .path
+                                                        .lastIndexOf("/") +
+                                                    1),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1,
+                                          ),
+                                        ),
+                                      )
+                                    : Center(
+                                        child: Text(
+                                          "No Files Selected",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .copyWith(fontSize: 30),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                )
+                              )
                             ],
                           ),
                         ),

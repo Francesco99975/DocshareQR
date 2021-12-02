@@ -100,7 +100,7 @@ class QrListItem extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyText1!,
           ),
           subtitle: Text(
-            "Due Date: ${DateFormat.yMMMMEEEEd().format(qrDoc.createdAt)}",
+            "Available until: ${DateFormat.yMMMMEEEEd().format(qrDoc.createdAt.add(const Duration(days: 3)))}",
             style:
                 Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 20),
           ),

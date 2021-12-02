@@ -36,10 +36,12 @@ dependencies:
   provider: ^6.0.1 #MIT
   qr_flutter: ^4.0.0 #BSD-3-CLAUSE
   file_picker: ^4.2.1 #MIT
-  flutter_uploader: ^3.0.0-beta.3 #MIT
   http: ^0.13.4 #MIT
   device_info_plus: ^3.1.1 #BSD-3-CLAUSE
   intl: ^0.17.0 #BSD-3-CLAUSE
+  url_launcher: ^6.0.16 #BSD-3-CLAUSE
+  path_provider: ^2.0.7 #BSD-3-CLAUSE
+  share: ^2.0.4 #BSD-3-CLAUSE
 
 dev_dependencies:
   flutter_test:
