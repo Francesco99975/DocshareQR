@@ -50,30 +50,38 @@ class Home extends StatelessWidget {
                         ),
                         body: SafeArea(
                           child: Consumer<QRDocs>(
-                            builder: (context, qrdocs, child) {
-                              if (qrdocs.size > 0) {
-                                return ListView.builder(
-                                  itemCount: qrdocs.size,
-                                  itemBuilder: (context, index) =>
-                                      ChangeNotifierProvider.value(
-                                    value: qrdocs.items[index],
-                                    child: const QrListItem(),
+                              builder: (context, qrdocs, child) {
+                                if (qrdocs.size > 0) {
+                                  return ListView.builder(
+                                    itemCount: qrdocs.size,
+                                    itemBuilder: (context, index) =>
+                                        ChangeNotifierProvider.value(
+                                      value: qrdocs.items[index],
+                                      child: const QrListItem(),
+                                    ),
+                                  );
+                                } else {
+                                  return child!;
+                                }
+                              },
+                              child: Center(
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: const EdgeInsets.all(28.0),
+                                  child: TextButton(
+                                    style: TextButton.styleFrom(
+                                        alignment: Alignment.center),
+                                    onPressed: () => Navigator.of(context)
+                                        .pushNamed(CreateScreen.routeName),
+                                    child: Text(
+                                      "Tap here or QR icon to crete your first qr code",
+                                      textAlign: TextAlign.center,
+                                      style:
+                                          Theme.of(context).textTheme.headline1,
+                                    ),
                                   ),
-                                );
-                              } else {
-                                return child!;
-                              }
-                            },
-                            child: Center(
-                              child: TextButton(
-                                onPressed: () {},
-                                child: Text(
-                                  "Tap here to crete your first qr code",
-                                  style: Theme.of(context).textTheme.headline1,
                                 ),
-                              ),
-                            ),
-                          ),
+                              )),
                         ),
                       )));
   }

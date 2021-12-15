@@ -42,7 +42,7 @@ class _CreateScreenState extends State<CreateScreen> {
 
   Future<void> _save() async {
     _formKey.currentState!.save();
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState!.validate() && _files.isNotEmpty) {
       setState(() {
         _isLoading = true;
       });
@@ -60,6 +60,16 @@ class _CreateScreenState extends State<CreateScreen> {
             duration: const Duration(seconds: 3),
             content: Text(
               Provider.of<QRDocs>(context, listen: false).lastError,
+              style: Theme.of(context).textTheme.bodyText1,
+            )));
+      }
+    } else {
+      if (_files.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: Theme.of(context).primaryColorDark,
+            duration: const Duration(seconds: 3),
+            content: Text(
+              "Please, select at least one file",
               style: Theme.of(context).textTheme.bodyText1,
             )));
       }
@@ -121,18 +131,19 @@ class _CreateScreenState extends State<CreateScreen> {
                                 autocorrect: false,
                                 initialValue: _name,
                                 style: TextStyle(
-                                    color: Theme.of(context).primaryColor),
+                                    color: Theme.of(context).primaryColor,
+                                    fontSize: 26),
                                 decoration: InputDecoration(
                                   labelText: "Name",
                                   labelStyle: Theme.of(context)
                                       .textTheme
                                       .bodyText2!
-                                      .copyWith(fontSize: 16),
+                                      .copyWith(fontSize: 24),
                                   hintText: 'Enter name',
                                   hintStyle: Theme.of(context)
                                       .textTheme
                                       .bodyText2!
-                                      .copyWith(fontSize: 14),
+                                      .copyWith(fontSize: 20),
                                   enabledBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Theme.of(context).primaryColor),
@@ -172,18 +183,19 @@ class _CreateScreenState extends State<CreateScreen> {
                                   initialValue: _password,
                                   obscureText: true,
                                   style: TextStyle(
-                                      color: Theme.of(context).primaryColor),
+                                      color: Theme.of(context).primaryColor,
+                                      fontSize: 26),
                                   decoration: InputDecoration(
                                     labelText: "Password",
                                     labelStyle: Theme.of(context)
                                         .textTheme
                                         .bodyText2!
-                                        .copyWith(fontSize: 16),
+                                        .copyWith(fontSize: 24),
                                     hintText: 'Enter password',
                                     hintStyle: Theme.of(context)
                                         .textTheme
                                         .bodyText2!
-                                        .copyWith(fontSize: 14),
+                                        .copyWith(fontSize: 20),
                                     enabledBorder: UnderlineInputBorder(
                                       borderSide: BorderSide(
                                           color:

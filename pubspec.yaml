@@ -42,6 +42,7 @@ dependencies:
   url_launcher: ^6.0.16 #BSD-3-CLAUSE
   path_provider: ^2.0.7 #BSD-3-CLAUSE
   share: ^2.0.4 #BSD-3-CLAUSE
+  mime: ^1.0.1 #BSD-3-CLAUSE
 
 dev_dependencies:
   flutter_test:

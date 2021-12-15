@@ -6,6 +6,8 @@ import 'package:docshareqr/providers/qrdoc.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:mime/mime.dart';
+import 'package:http_parser/http_parser.dart';
 
 const testUrl = "http://10.0.2.2:5000";
 const baseUrl = "https://docshareqr.francescobarranca.dev";
@@ -77,8 +79,11 @@ class QRDocs with ChangeNotifier {
       request.fields["deviceId"] = deviceId;
 
       for (var file in files) {
-        request.files.add(http.MultipartFile.fromBytes(
-            file, File(file).readAsBytesSync(),
+        var fileData = File(file).readAsBytesSync();
+        var mime = lookupMimeType(file);
+        request.files.add(http.MultipartFile.fromBytes(file, fileData,
+            contentType: MediaType(mime!.substring(0, mime.indexOf("/")),
+                mime.substring(mime.indexOf("/") + 1)),
             filename: file.split("/").last));
       }
 
@@ -89,12 +94,12 @@ class QRDocs with ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      print(e);
       lastError = e
           .toString()
           .substring(
               e.toString().lastIndexOf(")") + 1, e.toString().lastIndexOf("^"))
           .trim();
+      if (lastError.contains("html")) lastError = "Something went wrong";
       return false;
     }
   }
