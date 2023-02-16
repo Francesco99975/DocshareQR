@@ -61,11 +61,8 @@ class QRDocs with ChangeNotifier {
       _items = temp;
       return true;
     } catch (e) {
-      lastError = e
-          .toString()
-          .substring(
-              e.toString().lastIndexOf(")") + 1, e.toString().lastIndexOf("^"))
-          .trim();
+      lastError = "Files too large or invalid";
+
       return false;
     }
   }
@@ -94,12 +91,8 @@ class QRDocs with ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      lastError = e
-          .toString()
-          .substring(
-              e.toString().lastIndexOf(")") + 1, e.toString().lastIndexOf("^"))
-          .trim();
-      if (lastError.contains("html")) lastError = "Something went wrong";
+      lastError = "Files too large or invalid";
+
       return false;
     }
   }
@@ -131,11 +124,8 @@ class QRDocs with ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      lastError = e
-          .toString()
-          .substring(
-              e.toString().lastIndexOf(")") + 1, e.toString().lastIndexOf("^"))
-          .trim();
+      lastError = "Files too large or invalid";
+
       return false;
     }
   }
