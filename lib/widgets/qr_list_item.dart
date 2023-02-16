@@ -72,6 +72,7 @@ class QrListItem extends StatelessWidget {
             ),
           );
         }
+        return null;
       },
       onDismissed: (direction) async {
         if (direction == DismissDirection.endToStart) {
